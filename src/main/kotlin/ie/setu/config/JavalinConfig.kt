@@ -1,6 +1,9 @@
 package ie.setu.config
 
+import ie.setu.controllers.HealthParametersController
 import ie.setu.controllers.HealthTrackerController
+import ie.setu.controllers.MeasurementsController
+import ie.setu.controllers.MeasurementsController.getAllMeasurements
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.plugin.openapi.OpenApiOptions
@@ -59,6 +62,14 @@ class JavalinConfig {
                 path("/email/{email}"){
                     get(HealthTrackerController::getUserByEmail)
                 }
+            }
+            path("/api/healthparameters"){
+                get(HealthParametersController::getAllParameters)
+                post(HealthParametersController::addEntry)
+            }
+            path("/api/measurements"){
+                //MEASUREMENTS HISTORY- API CRUD
+                get(MeasurementsController::getAllMeasurements)
             }
         }
     }
