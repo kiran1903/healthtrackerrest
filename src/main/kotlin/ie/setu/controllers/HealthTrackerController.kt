@@ -101,7 +101,4 @@ object HealthTrackerController {
             id = ctx.pathParam("user-id").toInt(),
             user=userUpdates)
     }
-    fun newFeature(){
-
-    }
 }
