@@ -1,11 +1,8 @@
 package ie.setu.domain.repository
 
-import ie.setu.config.DbConfig
 import ie.setu.domain.MeasurementDTO
 import ie.setu.domain.db.Measurements
-import ie.setu.domain.db.Users
 import ie.setu.utils.mapToMeasurementDTO
-import ie.setu.utils.mapToUser
 import mu.KotlinLogging
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
