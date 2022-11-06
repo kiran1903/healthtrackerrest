@@ -7,5 +7,4 @@ object HealthParameters: Table("healthparameters") {
     val bloodPressure = double("bloodpressure")
     val pulse = double("pulse")
     val glucose = double("glucose")
-    val bmi = double("bmi")
 }
