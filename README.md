@@ -1,4 +1,4 @@
-# healthtrackerrest
+# Health Tracker
 Health Tracker App - Kotlin based WebApp   
 This App includes core 5 fearures for tracking health which includes Users, Activities, HealthParameters, ExerciseTracker, Measurements. The project is deployed with the help of Heroku.
 ## Execute the Repository
