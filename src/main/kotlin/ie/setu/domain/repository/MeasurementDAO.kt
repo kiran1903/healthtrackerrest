@@ -8,7 +8,6 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MeasurementDAO {
-    private val logger = KotlinLogging.logger {}
     //Get all the Measurement items in the database regardless of user id
     fun getAll(): ArrayList<MeasurementDTO> {
         val measurementsList: ArrayList<MeasurementDTO> = arrayListOf()

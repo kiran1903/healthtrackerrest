@@ -125,4 +125,19 @@ class MeasurementDAOTest {
 
     }
 
+    @Nested
+    inner class CreateMeasurements{
+        @Test
+        fun `Multiple measurements added to table can be retrieved successfully`(){
+            transaction {
+                val measurementDAO = populateMeasurementssTable()
+
+                assertEquals(3, measurementDAO.getAll().size)
+                assertEquals(measurement1,measurementDAO.findByUserId(measurement1.userid))
+                assertEquals(measurement2,measurementDAO.findByUserId(measurement2.userid))
+                assertEquals(measurement3,measurementDAO.findByUserId(measurement3.userid))
+            }
+        }
+    }
+
 }

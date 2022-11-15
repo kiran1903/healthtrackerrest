@@ -60,10 +60,10 @@ class JavalinConfig {
                     get(HealthTrackerController::getUserByUserId)
                     delete(HealthTrackerController::deleteUser)
                     patch(HealthTrackerController::updateUser)
-                    path("activities"){
+                    //path("activities"){
                         //get(HealthTrackerController::getActivitiesByUserId)
                         //delete(HealthTrackerController::deleteActivityByUserId)
-                    }
+                    //}
                 }
                 path("/email/{email}"){
                     get(HealthTrackerController::getUserByEmail)
@@ -76,6 +76,10 @@ class JavalinConfig {
                     get(HealthTrackerController::getActivitiesByActivityId)
                     delete(HealthTrackerController::deleteActivityByActivityId)
                     patch(HealthTrackerController::updateActivity)
+                }
+                path("/user/{user-id}") {
+                    get(HealthTrackerController::getActivitiesByUserId)
+                    delete(HealthTrackerController::deleteActivityByUserId)
                 }
             }
             path("/api/healthparameters"){
