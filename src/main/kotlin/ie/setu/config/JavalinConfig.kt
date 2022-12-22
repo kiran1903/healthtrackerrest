@@ -111,6 +111,11 @@ class JavalinConfig {
                     }
                 }
             }
+            //sleep monitoring
+            //stress monitoring
+            //food tracker
+            //water intake
+            //goal setting
         }
     }
 }

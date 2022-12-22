@@ -3,7 +3,6 @@ package ie.setu.domain.repository
 import ie.setu.domain.MeasurementDTO
 import ie.setu.domain.db.Measurements
 import ie.setu.utils.mapToMeasurementDTO
-import mu.KotlinLogging
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -29,6 +28,7 @@ class MeasurementDAO {
                 it[height] = measurementData.height
                 it[weight] = measurementData.weight
                 it[bmi] = measurementData.bmi
+                it[user_id] = measurementData.user_id
             }
         }
     }
@@ -36,7 +36,7 @@ class MeasurementDAO {
     fun findByUserId(userId: Int): MeasurementDTO? {
         return transaction {
             Measurements.select() {
-                Measurements.userid eq userId}
+                Measurements.id eq userId}
                 .map{ mapToMeasurementDTO(it) }
                 .firstOrNull()
         }
@@ -45,7 +45,7 @@ class MeasurementDAO {
     fun delete(userID: Int) {
         return transaction{
             Measurements.deleteWhere{
-                Measurements.userid eq userID
+                Measurements.id eq userID
             }
         }
     }
@@ -53,10 +53,11 @@ class MeasurementDAO {
     fun update(userid: Int, measurements: MeasurementDTO) {
         transaction {
             Measurements.update ({
-                Measurements.userid eq userid}) {
+                Measurements.id eq userid}) {
                 it[height] = measurements.height
                 it[weight] = measurements.weight
                 it[bmi] = measurements.bmi
+                it[user_id] = measurements.user_id
             }
         }
     }

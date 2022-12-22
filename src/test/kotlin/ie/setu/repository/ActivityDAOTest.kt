@@ -56,7 +56,7 @@ class ActivityDAOTest {
         fun `getting all activites from a populated table returns all rows`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(3, activityDAO.getAll().size)
@@ -67,7 +67,7 @@ class ActivityDAOTest {
         fun `get activity by user id that has no activities, results in no record returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(0, activityDAO.findByUserId(3).size)
@@ -78,7 +78,7 @@ class ActivityDAOTest {
         fun `get activity by user id that exists, results in a correct activitie(s) returned`() {
             transaction {
                 //Arrange - create and populate tables with three users and three activities
-                val userDAO = populateUserTable()
+                populateUserTable()
                 val activityDAO = populateActivityTable()
                 //Act & Assert
                 assertEquals(activity1, activityDAO.findByUserId(1).get(0))

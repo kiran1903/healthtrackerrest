@@ -1,11 +1,10 @@
 package ie.setu.repository
 
 import ie.setu.domain.MeasurementDTO
-import ie.setu.domain.db.HealthParameters
 import ie.setu.domain.db.Measurements
-import ie.setu.domain.repository.HealthParametersDAO
 import ie.setu.domain.repository.MeasurementDAO
 import ie.setu.helpers.measurements
+import ie.setu.helpers.populateUserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -45,7 +44,9 @@ class MeasurementDAOTest {
         @Test
         fun `getting all measurements Tracked from a populated table returns all rows`(){
             transaction {
+                populateUserTable()
                 val measurementsdao = populateMeasurementssTable()
+
                 assertEquals(3,measurementsdao.getAll().size)
             }
         }
@@ -53,7 +54,9 @@ class MeasurementDAOTest {
         @Test
         fun `get measurement tracked by id that doesn't exist, results in no measurements tracked returned`(){
             transaction {
+                populateUserTable()
                 val measurementdao = populateMeasurementssTable()
+
                 assertEquals(null,measurementdao.findByUserId(4))
             }
         }
@@ -61,7 +64,9 @@ class MeasurementDAOTest {
         @Test
         fun `get measurement tracked by id that exists, results of a correct measurement tracked returned`(){
             transaction {
+                populateUserTable()
                 val measurementdao = populateMeasurementssTable()
+
                 assertEquals(measurement1,measurementdao.findByUserId(1))
             }
         }
@@ -82,6 +87,7 @@ class MeasurementDAOTest {
         @Test
         fun `deleting a non-existent measurement in table results in no deletion`(){
             transaction {
+                populateUserTable()
                 val measurementdao = populateMeasurementssTable()
                 assertEquals(3,measurementdao.getAll().size)
                 measurementdao.delete(4)
@@ -92,6 +98,7 @@ class MeasurementDAOTest {
         @Test
         fun `deleting an existing measurement in table results in record being deleted`(){
             transaction {
+                populateUserTable()
                 val measurementdao = populateMeasurementssTable()
                 assertEquals(3,measurementdao.getAll().size)
                 measurementdao.delete(2)
@@ -106,8 +113,9 @@ class MeasurementDAOTest {
         @Test
         fun `updating existing measurements in table results in successful update`(){
             transaction {
+                populateUserTable()
                 val measurementdao = populateMeasurementssTable()
-                val measurement2updated = MeasurementDTO(2,75.0,72.0,13.0)
+                val measurement2updated = MeasurementDTO(2,75.0,72.0,13.0, 2)
                 measurementdao.update(2,measurement2updated)
                 measurementdao.findByUserId(2)?.let { assertEquals(72.0, it.height) }
             }
@@ -116,8 +124,9 @@ class MeasurementDAOTest {
         @Test
         fun `updating non-existent measurements in table results in no updates`(){
             transaction {
+                populateUserTable()
                 val measurementdao = populateMeasurementssTable()
-                val measuremnt4updated = MeasurementDTO(4,75.0,72.0,13.0)
+                val measuremnt4updated = MeasurementDTO(4,75.0,72.0,13.0, 2)
                 measurementdao.update(4,measuremnt4updated)
                 assertEquals(null,measurementdao.findByUserId(4))
             }
@@ -130,12 +139,13 @@ class MeasurementDAOTest {
         @Test
         fun `Multiple measurements added to table can be retrieved successfully`(){
             transaction {
+                populateUserTable()
                 val measurementDAO = populateMeasurementssTable()
 
                 assertEquals(3, measurementDAO.getAll().size)
-                assertEquals(measurement1,measurementDAO.findByUserId(measurement1.userid))
-                assertEquals(measurement2,measurementDAO.findByUserId(measurement2.userid))
-                assertEquals(measurement3,measurementDAO.findByUserId(measurement3.userid))
+                assertEquals(measurement1,measurementDAO.findByUserId(measurement1.id))
+                assertEquals(measurement2,measurementDAO.findByUserId(measurement2.id))
+                assertEquals(measurement3,measurementDAO.findByUserId(measurement3.id))
             }
         }
     }
