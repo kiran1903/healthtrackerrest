@@ -6,6 +6,7 @@ import ie.setu.domain.db.HealthParameters
 import ie.setu.domain.repository.ExerciseTrackerDAO
 import ie.setu.domain.repository.HealthParametersDAO
 import ie.setu.helpers.healthparameters
+import ie.setu.helpers.populateUserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -21,6 +22,7 @@ val healthparameter3 = healthparameters.get(2)
 
 internal fun populateHealthParametersTable(): HealthParametersDAO {
     SchemaUtils.create(HealthParameters)
+    populateUserTable()
     val healthparameterdao = HealthParametersDAO()
     healthparameterdao.save(healthparameter1)
     healthparameterdao.save(healthparameter2)
@@ -108,7 +110,7 @@ class HealthParametersDAOTest {
         fun `updating existing health parameters in table results in successful update`(){
             transaction {
                 val healthparameterdao = populateHealthParametersTable()
-                val healthparam2updated = HealthParametersDC(2,115.0,70.0,93.0)
+                val healthparam2updated = HealthParametersDC(2,115.0,70.0,93.0,2)
                 healthparameterdao.update(2,healthparam2updated)
                 assertEquals(115.0,healthparam2updated.bloodPressure)
             }
@@ -118,7 +120,7 @@ class HealthParametersDAOTest {
         fun `updating non-existent health parameters in table results in no updates`(){
             transaction {
                 val healthparameterdao = populateHealthParametersTable()
-                val healthparameter4updated = HealthParametersDC(4,115.0,70.0,93.0)
+                val healthparameter4updated = HealthParametersDC(4,115.0,70.0,93.0,3)
                 healthparameterdao.update(4,healthparameter4updated)
                 assertEquals(null,healthparameterdao.findById(4))
             }

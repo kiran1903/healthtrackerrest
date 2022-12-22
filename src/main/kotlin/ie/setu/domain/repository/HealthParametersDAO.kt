@@ -1,13 +1,9 @@
 package ie.setu.domain.repository
 
 import ie.setu.domain.HealthParametersDC
-import ie.setu.domain.User
 import ie.setu.domain.db.HealthParameters
-import ie.setu.domain.db.Users
 import ie.setu.utils.mapToHealthParameter
-import ie.setu.utils.mapToUser
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 
@@ -25,10 +21,11 @@ class HealthParametersDAO {
         fun save(healthParameters: HealthParametersDC){
                 transaction {
                         HealthParameters.insert {
-                                it[userid] = healthParameters.userid
+                                it[id] = healthParameters.id
                                 it[bloodPressure] = healthParameters.bloodPressure
                                 it[pulse] = healthParameters.pulse
                                 it[glucose] = healthParameters.glucose
+                                it[user_id] = healthParameters.user_id
                         }
                 }
         }
@@ -36,7 +33,7 @@ class HealthParametersDAO {
     fun findById(userID: Int): HealthParametersDC? {
             return transaction {
                     HealthParameters.select() {
-                            HealthParameters.userid eq userID}
+                            HealthParameters.id eq userID}
                             .map{ mapToHealthParameter(it) }
                             .firstOrNull()
             }
@@ -46,7 +43,7 @@ class HealthParametersDAO {
         fun delete(userID: Int) {
                 return transaction{
                         HealthParameters.deleteWhere{
-                                HealthParameters.userid eq userID
+                                HealthParameters.id eq userID
                         }
                 }
         }
@@ -54,10 +51,11 @@ class HealthParametersDAO {
         fun update(userid: Int, healthParamerts: HealthParametersDC) {
                 transaction {
                         HealthParameters.update ({
-                                HealthParameters.userid eq userid}) {
+                                HealthParameters.id eq userid}) {
                                 it[pulse] = healthParamerts.pulse
                                 it[bloodPressure] = healthParamerts.bloodPressure
                                 it[glucose] = healthParamerts.glucose
+                                it[user_id] = healthParamerts.user_id
                         }
                 }
         }

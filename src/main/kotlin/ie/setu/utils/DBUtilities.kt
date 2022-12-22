@@ -20,17 +20,18 @@ fun mapToActivity(it: ResultRow) = Activity(
 )
 
 fun mapToHealthParameter(it: ResultRow) = HealthParametersDC(
-    userid = it[HealthParameters.userid],
+    id = it[HealthParameters.id],
     bloodPressure = it[HealthParameters.bloodPressure],
     glucose = it[HealthParameters.glucose],
-
-    pulse = it[HealthParameters.pulse]
+    pulse = it[HealthParameters.pulse],
+    user_id = it[HealthParameters.user_id]
 )
 fun mapToMeasurementDTO(it: ResultRow) = MeasurementDTO(
-    userid = it[Measurements.userid],
+    id = it[Measurements.id],
     weight = it[Measurements.weight],
     height = it[Measurements.height],
-    bmi = it[Measurements.bmi]
+    bmi = it[Measurements.bmi],
+    user_id = it[Measurements.user_id]
 )
 
 

@@ -36,15 +36,15 @@ val exercisetrackers = arrayListOf<ExerciseTrackerDC>(
 )
 
 val healthparameters = arrayListOf<HealthParametersDC>(
-    HealthParametersDC(1,110.0,67.0,87.0),
-    HealthParametersDC(2,113.0,69.0,92.0),
-    HealthParametersDC(3,124.0,75.0,89.0)
+    HealthParametersDC(1,110.0,67.0,87.0,1),
+    HealthParametersDC(2,113.0,69.0,92.0,2),
+    HealthParametersDC(3,124.0,75.0,89.0,3)
 )
 
 val measurements = arrayListOf<MeasurementDTO>(
-    MeasurementDTO(1,67.0,65.0,15.0),
-    MeasurementDTO(2,75.0,71.0,13.0),
-    MeasurementDTO(3,82.0,75.0,18.0)
+    MeasurementDTO(1,67.0,65.0,15.0, 1),
+    MeasurementDTO(2,75.0,71.0,13.0, 2),
+    MeasurementDTO(3,82.0,75.0,18.0, 3)
 )
 
 fun populateUserTable(): UserDAO {
