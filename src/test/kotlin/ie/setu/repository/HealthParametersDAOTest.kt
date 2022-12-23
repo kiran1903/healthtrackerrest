@@ -10,6 +10,7 @@ import ie.setu.helpers.populateUserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.joda.time.DateTime
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -110,7 +111,7 @@ class HealthParametersDAOTest {
         fun `updating existing health parameters in table results in successful update`(){
             transaction {
                 val healthparameterdao = populateHealthParametersTable()
-                val healthparam2updated = HealthParametersDC(2,115.0,70.0,93.0,2)
+                val healthparam2updated = HealthParametersDC(2,115.0,70.0,93.0, DateTime.now(),2)
                 healthparameterdao.update(2,healthparam2updated)
                 assertEquals(115.0,healthparam2updated.bloodPressure)
             }
@@ -120,7 +121,7 @@ class HealthParametersDAOTest {
         fun `updating non-existent health parameters in table results in no updates`(){
             transaction {
                 val healthparameterdao = populateHealthParametersTable()
-                val healthparameter4updated = HealthParametersDC(4,115.0,70.0,93.0,3)
+                val healthparameter4updated = HealthParametersDC(4,115.0,70.0,93.0,DateTime.now(),3)
                 healthparameterdao.update(4,healthparameter4updated)
                 assertEquals(null,healthparameterdao.findById(4))
             }

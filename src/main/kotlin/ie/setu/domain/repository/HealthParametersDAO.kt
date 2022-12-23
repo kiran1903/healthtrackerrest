@@ -25,6 +25,7 @@ class HealthParametersDAO {
                                 it[bloodPressure] = healthParameters.bloodPressure
                                 it[pulse] = healthParameters.pulse
                                 it[glucose] = healthParameters.glucose
+                                it[measuredOn] = healthParameters.measuredOn
                                 it[user_id] = healthParameters.user_id
                         }
                 }
@@ -55,6 +56,7 @@ class HealthParametersDAO {
                                 it[pulse] = healthParamerts.pulse
                                 it[bloodPressure] = healthParamerts.bloodPressure
                                 it[glucose] = healthParamerts.glucose
+                                it[measuredOn] = healthParamerts.measuredOn
                                 it[user_id] = healthParamerts.user_id
                         }
                 }

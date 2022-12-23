@@ -24,6 +24,7 @@ fun mapToHealthParameter(it: ResultRow) = HealthParametersDC(
     bloodPressure = it[HealthParameters.bloodPressure],
     glucose = it[HealthParameters.glucose],
     pulse = it[HealthParameters.pulse],
+    measuredOn = it[HealthParameters.measuredOn],
     user_id = it[HealthParameters.user_id]
 )
 fun mapToMeasurementDTO(it: ResultRow) = MeasurementDTO(
