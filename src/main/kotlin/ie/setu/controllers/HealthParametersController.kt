@@ -3,10 +3,7 @@ package ie.setu.controllers
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.HealthParametersDC
-import ie.setu.domain.User
-import ie.setu.domain.db.HealthParameters
 import ie.setu.domain.repository.HealthParametersDAO
-import ie.setu.domain.repository.UserDAO
 import io.javalin.http.Context
 import io.javalin.plugin.openapi.annotations.OpenApi
 import io.javalin.plugin.openapi.annotations.*
@@ -52,7 +49,7 @@ object HealthParametersController {
         responses  = [OpenApiResponse("200", [OpenApiContent(HealthParametersDC::class)])]
     )
     fun getParametersByUserId(ctx: Context) {
-        val parameters = healthParametersDao.findById(ctx.pathParam("userid").toInt())
+        val parameters = healthParametersDao.findByUserId(ctx.pathParam("userid").toInt())
         if (parameters != null) {
             ctx.json(parameters)
         }
@@ -67,8 +64,8 @@ object HealthParametersController {
         pathParams = [OpenApiParam("userid", Int::class, "The user ID")],
         responses  = [OpenApiResponse("204")]
     )
-    fun deleteParameters(ctx: Context) {
-        healthParametersDao.delete(ctx.pathParam("userid").toInt())
+    fun deleteParametersByID(ctx: Context) {
+        healthParametersDao.deleteByID(ctx.pathParam("healthParamID").toInt())
     }
 
     @OpenApi(
@@ -80,11 +77,52 @@ object HealthParametersController {
         pathParams = [OpenApiParam("userid", Int::class, "The user ID")],
         responses  = [OpenApiResponse("204")]
     )
-    fun updateParameters(ctx: Context) {
+    fun updateParametersByID(ctx: Context) {
         val mapper = jacksonObjectMapper()
         val healthParameters = mapper.readValue<HealthParametersDC>(ctx.body())
         healthParametersDao.update(
-            userid = ctx.pathParam("userid").toInt(),
+            healthParamID = ctx.pathParam("healthParamID").toInt(),
             healthParamerts=healthParameters)
     }
+
+    @OpenApi(
+        summary = "Get parameters by id",
+        operationId = "getParametersbyID",
+        tags = ["Health Parameters"],
+        path = "/api/healthparameters/{healthparameter-id}",
+        method = HttpMethod.GET,
+        pathParams = [OpenApiParam("healthparameter-id", Int::class, "The healthparameters id")],
+        responses  = [OpenApiResponse("200", [OpenApiContent(HealthParametersDC::class)])]
+    )
+    fun getParametersbyID(ctx: Context) {
+        val healthParameters = healthParametersDao.findById(ctx.pathParam("healthparameter-id").toInt())
+        if (healthParameters != null) {
+            ctx.json(healthParameters)
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+    }
+    @OpenApi(
+        summary = "Update health parameters by user id",
+        operationId = "updateParametersByUserID",
+        tags = ["Health Parameters"],
+        path = "/api/healthparameters/user/{userid}",
+        method = HttpMethod.PATCH,
+        pathParams = [OpenApiParam("userid", Int::class, "The user ID")],
+        responses  = [OpenApiResponse("204")]
+    )
+    fun updateParametersByUserID(ctx: Context) {
+        val mapper = jacksonObjectMapper()
+        val healthParameters = mapper.readValue<HealthParametersDC>(ctx.body())
+        healthParametersDao.updateByUserID(
+            userID = ctx.pathParam("user-id").toInt(),
+            healthParamerts=healthParameters)
+    }
+
+    fun deleteParametersByUserID(ctx: Context) {
+        healthParametersDao.deleteByUserID(ctx.pathParam("user-id").toInt())
+    }
+
 }

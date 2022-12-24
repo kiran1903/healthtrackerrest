@@ -31,28 +31,28 @@ class HealthParametersDAO {
                 }
         }
 
-    fun findById(userID: Int): HealthParametersDC? {
+    fun findById(healthParamID: Int): HealthParametersDC? {
             return transaction {
                     HealthParameters.select() {
-                            HealthParameters.id eq userID}
+                            HealthParameters.id eq healthParamID}
                             .map{ mapToHealthParameter(it) }
                             .firstOrNull()
             }
 
     }
 
-        fun delete(userID: Int) {
+        fun deleteByID(healthParamID: Int) {
                 return transaction{
                         HealthParameters.deleteWhere{
-                                HealthParameters.id eq userID
+                                HealthParameters.id eq healthParamID
                         }
                 }
         }
 
-        fun update(userid: Int, healthParamerts: HealthParametersDC) {
+        fun update(healthParamID: Int, healthParamerts: HealthParametersDC) {
                 transaction {
                         HealthParameters.update ({
-                                HealthParameters.id eq userid}) {
+                                HealthParameters.id eq healthParamID}) {
                                 it[pulse] = healthParamerts.pulse
                                 it[bloodPressure] = healthParamerts.bloodPressure
                                 it[glucose] = healthParamerts.glucose
@@ -61,5 +61,34 @@ class HealthParametersDAO {
                         }
                 }
         }
+        fun updateByUserID(userID: Int, healthParamerts: HealthParametersDC) {
+                transaction {
+                        HealthParameters.update ({
+                                HealthParameters.user_id eq userID}) {
+                                it[pulse] = healthParamerts.pulse
+                                it[bloodPressure] = healthParamerts.bloodPressure
+                                it[glucose] = healthParamerts.glucose
+                                it[measuredOn] = healthParamerts.measuredOn
+                                it[user_id] = healthParamerts.user_id
+                        }
+                }
+        }
+        fun findByUserId(userID: Int): HealthParametersDC? {
+                return transaction {
+                        HealthParameters.select() {
+                                HealthParameters.user_id eq userID}
+                                .map{ mapToHealthParameter(it) }
+                                .firstOrNull()
+                }
+        }
+
+        fun deleteByUserID(userID: Int) {
+                return transaction{
+                        HealthParameters.deleteWhere{
+                                HealthParameters.user_id eq userID
+                        }
+                }
+        }
+
 
 }

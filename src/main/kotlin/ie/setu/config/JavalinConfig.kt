@@ -82,10 +82,15 @@ class JavalinConfig {
             path("/api/healthparameters"){
                 get(HealthParametersController::getAllParameters)
                 post(HealthParametersController::addEntry)
-                path("{userid}"){
+                path("{healthparameter-id}"){
+                    get(HealthParametersController::getParametersbyID)
+                    delete(HealthParametersController::deleteParametersByID)
+                    patch(HealthParametersController::updateParametersByID)
+                }
+                path("user/{user-id}"){
                     get(HealthParametersController::getParametersByUserId)
-                    delete(HealthParametersController::deleteParameters)
-                    patch(HealthParametersController::updateParameters)
+                    delete(HealthParametersController::deleteParametersByUserID)
+                    patch(HealthParametersController::updateParametersByUserID)
                 }
             }
             path("/api/measurements"){

@@ -1,9 +1,7 @@
 package ie.setu.repository
 
 import ie.setu.domain.HealthParametersDC
-import ie.setu.domain.db.ExerciseTracker
 import ie.setu.domain.db.HealthParameters
-import ie.setu.domain.repository.ExerciseTrackerDAO
 import ie.setu.domain.repository.HealthParametersDAO
 import ie.setu.helpers.healthparameters
 import ie.setu.helpers.populateUserTable
@@ -88,7 +86,7 @@ class HealthParametersDAOTest {
             transaction {
                 val healthparameterdao = populateHealthParametersTable()
                 assertEquals(3,healthparameterdao.getAll().size)
-                healthparameterdao.delete(4)
+                healthparameterdao.deleteByID(4)
                 assertEquals(3,healthparameterdao.getAll().size)
             }
         }
@@ -98,7 +96,7 @@ class HealthParametersDAOTest {
             transaction {
                 val healthparameterdao = populateHealthParametersTable()
                 assertEquals(3,healthparameterdao.getAll().size)
-                healthparameterdao.delete(2)
+                healthparameterdao.deleteByID(2)
                 assertEquals(2,healthparameterdao.getAll().size)
             }
         }
