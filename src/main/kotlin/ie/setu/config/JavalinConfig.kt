@@ -117,6 +117,20 @@ class JavalinConfig {
                 }
             }
             //sleep monitoring
+            path("/api/sleepmonitoring"){
+                get(SleepMonitorController::getAllSleepInfo)
+                post(SleepMonitorController::addSleepInfo)
+                path("{sleepmonitor-id}"){
+//                    get(SleepMonitorController::getSleepInfoByID)
+//                    patch(SleepMonitorController::updateSleepInfoByID)
+//                    delete(SleepMonitorController::deleteSleepInfoByID)
+                }
+                path("/user/{user-id}"){
+//                    get(SleepMonitorController::getSleepInfoByUserID)
+//                    patch(SleepMonitorController::updateSleepInfoByUserID)
+//                    delete(SleepMonitorController::deleteSleepInfoByUserID)
+                }
+            }
             //stress monitoring
             //food tracker
             //water intake
