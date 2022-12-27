@@ -2,12 +2,17 @@ package ie.setu.domain.repository
 
 
 import ie.setu.domain.SleepMonitorDTO
+import ie.setu.domain.db.HealthParameters
 import ie.setu.domain.db.Measurements
 import ie.setu.domain.db.SleepMonitor
+import ie.setu.utils.mapToHealthParameter
 import ie.setu.utils.mapToSleepMonitorDTO
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 
 class SleepMonitorDAO {
 
@@ -34,5 +39,26 @@ class SleepMonitorDAO {
             }
         }
 
+    }
+
+    fun findById(sleepMonitorID: Int): SleepMonitorDTO? {
+        return transaction {
+            SleepMonitor.select() {
+                SleepMonitor.id eq sleepMonitorID}
+                .map{ mapToSleepMonitorDTO(it) }
+                .firstOrNull()
+        }
+    }
+
+    fun updateByID(id: Int, sleepInfo: SleepMonitorDTO): Any {
+        return transaction {
+            SleepMonitor.update ({
+                SleepMonitor.id eq id}) {
+                it[date] = sleepInfo.date
+                it[day] = sleepInfo.day
+                it[sleepDuration] = sleepInfo.sleepDuration
+                it[user_id] = sleepInfo.user_id
+            }
+        }
     }
 }
