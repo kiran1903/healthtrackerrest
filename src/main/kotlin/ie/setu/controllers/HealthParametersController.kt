@@ -49,7 +49,7 @@ object HealthParametersController {
         responses  = [OpenApiResponse("200", [OpenApiContent(HealthParametersDC::class)])]
     )
     fun getParametersByUserId(ctx: Context) {
-        val parameters = healthParametersDao.findByUserId(ctx.pathParam("userid").toInt())
+        val parameters = healthParametersDao.findByUserId(ctx.pathParam("user-id").toInt())
         if (parameters != null) {
             ctx.json(parameters)
         }
