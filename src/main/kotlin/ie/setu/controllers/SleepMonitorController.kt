@@ -1,5 +1,8 @@
 package ie.setu.controllers
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import ie.setu.domain.MeasurementDTO
 import ie.setu.domain.SleepMonitorDTO
 import ie.setu.domain.User
 import ie.setu.domain.repository.SleepMonitorDAO
@@ -43,5 +46,28 @@ object SleepMonitorController {
             ctx.status(204)
         else
             ctx.status(404)
+    }
+
+    fun deleteSleepInfoByID(ctx: Context) {
+        sleepMonitorDAO.deleteByID(ctx.pathParam("sleepmonitor-id").toInt())
+    }
+
+    fun getSleepInfoByUserID(ctx: Context) {
+        val sleepInfo = sleepMonitorDAO.findByUserId(ctx.pathParam("user-id").toInt())
+        if (sleepInfo != null) {
+            ctx.json(sleepInfo)
+        }
+    }
+
+    fun updateSleepInfoByUserID(ctx: Context) {
+        val mapper = jacksonObjectMapper()
+        val sleepInfo = mapper.readValue<SleepMonitorDTO>(ctx.body())
+        sleepMonitorDAO.updateByUserID(
+            userID = ctx.pathParam("user-id").toInt(),
+            sleepInfo=sleepInfo)
+    }
+
+    fun deleteSleepInfoByUserID(ctx: Context) {
+        sleepMonitorDAO.deleteByUserID(ctx.pathParam("user-id").toInt())
     }
 }

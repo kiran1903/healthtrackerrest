@@ -47,6 +47,12 @@ val measurements = arrayListOf<MeasurementDTO>(
     MeasurementDTO(3,82.0,75.0,18.0, 3)
 )
 
+val sleepMonitorInfo = arrayListOf<SleepMonitorDTO>(
+    SleepMonitorDTO(1,DateTime.now(),"Monday",7.0,1),
+    SleepMonitorDTO(2,DateTime.now(),"Tuesday",8.0, 2),
+    SleepMonitorDTO(3,DateTime.now(),"Wednesday",8.5, 3)
+)
+
 fun populateUserTable(): UserDAO {
     SchemaUtils.create(Users)
     val userDAO = UserDAO()

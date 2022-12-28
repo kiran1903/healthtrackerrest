@@ -7,12 +7,9 @@ import ie.setu.domain.db.Measurements
 import ie.setu.domain.db.SleepMonitor
 import ie.setu.utils.mapToHealthParameter
 import ie.setu.utils.mapToSleepMonitorDTO
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
 class SleepMonitorDAO {
 
@@ -58,6 +55,43 @@ class SleepMonitorDAO {
                 it[day] = sleepInfo.day
                 it[sleepDuration] = sleepInfo.sleepDuration
                 it[user_id] = sleepInfo.user_id
+            }
+        }
+    }
+
+    fun deleteByID(id: Int) {
+        return transaction{
+            SleepMonitor.deleteWhere{
+                SleepMonitor.id eq id
+            }
+        }
+    }
+
+    fun findByUserId(userID: Int): SleepMonitorDTO? {
+        return transaction {
+            SleepMonitor.select() {
+                SleepMonitor.user_id eq userID}
+                .map{ mapToSleepMonitorDTO(it) }
+                .firstOrNull()
+        }
+    }
+
+    fun updateByUserID(userID: Int, sleepInfo: SleepMonitorDTO) {
+        transaction {
+            SleepMonitor.update ({
+                SleepMonitor.user_id eq userID}) {
+                it[date] = sleepInfo.date
+                it[day] = sleepInfo.day
+                it[sleepDuration] = sleepInfo.sleepDuration
+                it[user_id] = sleepInfo.user_id
+            }
+        }
+    }
+
+    fun deleteByUserID(userID: Int) {
+        return transaction{
+            SleepMonitor.deleteWhere{
+                SleepMonitor.user_id eq userID
             }
         }
     }

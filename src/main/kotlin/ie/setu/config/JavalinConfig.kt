@@ -124,12 +124,12 @@ class JavalinConfig {
                 path("{sleepmonitor-id}"){
                     get(SleepMonitorController::getSleepInfoByID)
                     patch(SleepMonitorController::updateSleepInfoByID)
-//                    delete(SleepMonitorController::deleteSleepInfoByID)
+                    delete(SleepMonitorController::deleteSleepInfoByID)
                 }
                 path("/user/{user-id}"){
-//                    get(SleepMonitorController::getSleepInfoByUserID)
-//                    patch(SleepMonitorController::updateSleepInfoByUserID)
-//                    delete(SleepMonitorController::deleteSleepInfoByUserID)
+                    get(SleepMonitorController::getSleepInfoByUserID)
+                    patch(SleepMonitorController::updateSleepInfoByUserID)
+                    delete(SleepMonitorController::deleteSleepInfoByUserID)
                 }
             }
             //stress monitoring
