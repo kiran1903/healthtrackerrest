@@ -20,6 +20,7 @@ class DbConfig{
 //            user = "cpyakngkskdiyl",
 //            password = "4fabe94fc943246ca8fda00f3c9638051069478f3d180eb20e3ecd2adca1e099")
 
+            //elephantSQL
             "jdbc:postgresql://lucky.db.elephantsql.com:5432/scnscgcq",
             driver = "org.postgresql.Driver",
             user = "scnscgcq",
