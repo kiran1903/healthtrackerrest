@@ -12,8 +12,8 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.joda.time.DateTime
 
 val nonExistingEmail = "112233445566778testUser@xxxxx.xx"
-val validName = "Test User 1"
-val validEmail = "testuser1@test.com"
+val validName = "Test User 2"
+val validEmail = "testuser2@test.com"
 
 val users = arrayListOf<User>(
     User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1),

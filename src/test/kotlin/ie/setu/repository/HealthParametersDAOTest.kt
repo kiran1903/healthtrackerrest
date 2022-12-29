@@ -119,9 +119,9 @@ class HealthParametersDAOTest {
         fun `updating non-existent health parameters in table results in no updates`(){
             transaction {
                 val healthparameterdao = populateHealthParametersTable()
-                val healthparameter4updated = HealthParametersDC(4,115.0,70.0,93.0,DateTime.now(),3)
-                healthparameterdao.update(4,healthparameter4updated)
-                assertEquals(null,healthparameterdao.findById(4))
+                val healthparameter4updated = HealthParametersDC(400,115.0,70.0,93.0,DateTime.now(),3)
+                healthparameterdao.update(400,healthparameter4updated)
+                assertEquals(null,healthparameterdao.findById(400))
             }
         }
 
