@@ -14,6 +14,7 @@ class DbConfig{
         logger.info{"Starting DB Connection..."}
 
         val dbConfig = Database.connect(
+
 //            "jdbc:postgresql://ec2-52-207-15-147.compute-1.amazonaws.com:5432/d8audr61018bo9?sslmode=require",
 //            driver = "org.postgresql.Driver",
 //            user = "cpyakngkskdiyl",
