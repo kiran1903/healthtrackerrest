@@ -1,9 +1,11 @@
 package ie.setu.controllers
 
 import ie.setu.config.DbConfig
+import ie.setu.domain.Activity
 import ie.setu.domain.HealthParametersDC
 import ie.setu.domain.User
-import ie.setu.helpers.ServerContainer
+import ie.setu.helpers.*
+import ie.setu.utils.jsonNodeToObject
 import ie.setu.utils.jsonToObject
 import kong.unirest.HttpResponse
 import kong.unirest.JsonNode
@@ -87,7 +89,51 @@ class HealthParametersControllerTest {
     inner class DeleteHealthParameters{}
 
     @Nested
-    inner class UpdateHealthParameters{}
+    inner class UpdateHealthParameters{
+        @Test
+        fun `updating health parameter by id when it doesn't exist, returns a 404 response`() {
+            val healthParamId = -1
+            //Arrange - check there is no health parameter for -1 id
+            Assertions.assertEquals(404, retrieveHealthParametersById(healthParamId).status)
+
+            //Act & Assert - attempt to update the details of an activity/user that doesn't exist
+            Assertions.assertEquals(
+                404, updateHealthParameterByID(
+                    healthParamId, 123.6, 94.0,
+                    120.0, DateTime.now(), 1
+                ).status
+            )
+        }
+        @Test
+        fun `updating health parameter info by id when it exists, returns 204 response`() {
+
+            //Arrange - add a health parameter entry that we plan to do an update on
+
+            val addHealthParamResponse = addHealthParameter(
+                healthparameters[0].bloodPressure,
+                healthparameters[0].pulse, healthparameters[0].glucose,
+                healthparameters[0].measuredOn, healthparameters[0].user_id)
+            Assertions.assertEquals(201, addHealthParamResponse.status)
+            val addedHealthParameterInfo = jsonNodeToObject<Activity>(addHealthParamResponse)
+
+            //Act & Assert - update the added health parameter and assert a 204 is returned
+
+            val updatedHealthParamResponse = updateHealthParameterByID(addedHealthParameterInfo.id, 212.2,
+                95.0, 300.9, DateTime.now(), addedHealthParameterInfo.id)
+            Assertions.assertEquals(204, updatedHealthParamResponse.status)
+
+            //Assert that the individual fields were all updated as expected
+            val retrievedHealthParamResponse = retrieveHealthParametersById(addedHealthParameterInfo.id)
+            val updatedHealthParamInfo = jsonNodeToObject<HealthParametersDC>(retrievedHealthParamResponse)
+            Assertions.assertEquals(212.2, updatedHealthParamInfo.bloodPressure)
+            Assertions.assertEquals(95.0, updatedHealthParamInfo.pulse, 0.1)
+            Assertions.assertEquals(300.9, updatedHealthParamInfo.glucose)
+            Assertions.assertEquals(DateTime.now(), updatedHealthParamInfo.measuredOn)
+
+            //After - delete the health parameter
+            deleteHealthParameterByID(addedHealthParameterInfo.id)
+        }
+    }
 
     @Nested
     inner class CreateHealthParameters{}
@@ -107,5 +153,18 @@ class HealthParametersControllerTest {
     }
     private fun retrieveHealthParametersByUserID(id : Int) : HttpResponse<String> {
         return Unirest.get(origin + "/api/healthparameters/user/${id}").asString()
+    }
+    private fun updateHealthParameterByID(id: Int, bloodPressure: Double, pulse: Double, glucose: Double,
+                                      measuredOn: DateTime, user_id: Int): HttpResponse<JsonNode> {
+        return Unirest.patch(origin + "/api/healthparameters/$id")
+            .body("""
+                {
+                  "bloodPressure":"$bloodPressure",
+                  "pulse":$pulse,
+                  "glucose":$glucose,
+                  "measuredOn":"$measuredOn",
+                  "user_id":$user_id
+                }
+            """.trimIndent()).asJson()
     }
 }

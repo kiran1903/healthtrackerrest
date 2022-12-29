@@ -160,8 +160,15 @@ object HealthTrackerController {
             .registerModule(JodaModule())
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         val activity = mapper.readValue<Activity>(ctx.body())
-        activityDAO.save(activity)
-        ctx.json(activity)
+        val user = userDao.findById(activity.user_id)
+        if(user != null){
+            activityDAO.save(activity)
+            ctx.json(activity)
+            ctx.status(200)
+        }
+        else {
+            ctx.status(404)
+        }
     }
 
     fun getActivitiesByActivityId(ctx: Context) {
