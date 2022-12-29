@@ -193,7 +193,7 @@ class HealthTrackerControllerTest {
         fun `add an activity when no user exists for it, returns a 404 response`() {
 
             //Arrange - check there is no user for -1 id
-            val userId = -1
+            val userId = 10
             assertEquals(404, retrieveUserById(userId).status)
 
             val addActivityResponse = addActivity(
@@ -487,7 +487,7 @@ class HealthTrackerControllerTest {
                    "duration":$duration,
                    "calories":$calories,
                    "started":"$started",
-                   "userId":$userId
+                   "user_id":$userId
                 }
             """.trimIndent())
             .asJson()
