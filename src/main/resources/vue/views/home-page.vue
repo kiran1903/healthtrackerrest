@@ -31,6 +31,35 @@
           </div>
         </div>
       </div>
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Sleep Monitor</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{sleepmonitor.length}} entries</h5>
+            <a href="/sleepmonitor" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Measurements</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{measurements.length}} entries</h5>
+            <a href="/measurements" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Exercise Tracker (Gym)</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{exercise.length}} entries</h5>
+            <a href="/exercise" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
     </div>
   </app-layout>
 </template>
@@ -42,7 +71,10 @@ Vue.component('home-page',
       data: () => ({
         users: [],
         activities: [],
-        healthparameters:[]
+        healthparameters:[],
+        sleepmonitor:[],
+        measurements:[],
+        exercise:[]
       }),
       created() {
         axios.get("/api/users")
@@ -54,6 +86,15 @@ Vue.component('home-page',
         axios.get("/api/healthparameters")
             .then(res => this.healthparameters = res.data)
             .catch(() => alert("Error while fetching healthparameters"));
+        axios.get("/api/sleepmonitoring")
+            .then(res => this.sleepmonitor = res.data)
+            .catch(() => alert("Error while fetching sleepmonitor information"));
+        axios.get("/api/measurements")
+            .then(res => this.measurements = res.data)
+            .catch(() => alert("Error while fetching measurements information"));
+        axios.get("/api/exercisetracker")
+            .then(res => this.exercise = res.data)
+            .catch(() => alert("Error while fetching exercise information"));
       }
     });
 </script>

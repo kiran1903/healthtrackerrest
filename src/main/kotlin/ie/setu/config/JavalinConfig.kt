@@ -151,6 +151,16 @@ class JavalinConfig {
 
             //Health parameters
             get("/healthparameters",VueComponent("<healthparameters-overview></healthparameters-overview>"))
+
+            //Sleep monitor
+            get("/sleepmonitor",VueComponent("<sleepmonitor-overview></sleepmonitor-overview>"))
+
+            //Measurements
+            get("/measurements",VueComponent("<measurements-overview></measurements-overview>"))
+
+            //Exercise Tracker
+            get("/exercise",VueComponent("<exercise-overview></exercise-overview>"))
+
         }
     }
 }

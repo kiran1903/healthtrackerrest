@@ -1,5 +1,7 @@
 package ie.setu.domain.db
 
+import ie.setu.domain.db.HealthParameters.references
+import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 
 object ExerciseTracker: Table("excercisetracker") {
@@ -7,4 +9,5 @@ object ExerciseTracker: Table("excercisetracker") {
     val day = varchar("day",10)
     val exercise = varchar("exercise",100)
     val duration = integer("duration")
+    val user_id = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
 }
