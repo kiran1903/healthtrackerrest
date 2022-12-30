@@ -170,39 +170,6 @@ class HealthTrackerControllerTest {
             assertEquals(404, retrieveUserById(addedUser.id).status)
         }
     }
-    @Nested
-    inner class CreateActivities {
-
-        @Test
-        fun `add an activity when a user exists for it, returns a 201 response`() {
-
-            //Arrange - add a user and an associated activity that we plan to do a delete on
-            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
-
-            val addActivityResponse = addActivity(
-                activities[0].description, activities[0].duration,
-                activities[0].calories, activities[0].started, addedUser.id
-            )
-            assertEquals(201, addActivityResponse.status)
-
-            //After - delete the user (Activity will cascade delete in the database)
-            deleteUser(addedUser.id)
-        }
-
-        @Test
-        fun `add an activity when no user exists for it, returns a 404 response`() {
-
-            //Arrange - check there is no user for -1 id
-            val userId = 10
-            assertEquals(404, retrieveUserById(userId).status)
-
-            val addActivityResponse = addActivity(
-                activities.get(0).description, activities.get(0).duration,
-                activities.get(0).calories, activities.get(0).started, userId
-            )
-            assertEquals(404, addActivityResponse.status)
-        }
-    }
 
     @Nested
     inner class ReadActivities {
@@ -284,10 +251,12 @@ class HealthTrackerControllerTest {
                 activities[0].description,
                 activities[0].duration, activities[0].calories,
                 activities[0].started, addedUser.id)
-            assertEquals(201, addActivityResponse.status)
+            assertEquals(200, addActivityResponse.status)
             val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
 
             //Act & Assert - retrieve the activity by activity id
+            print("added activity = "+addedActivity.id)
+            print("added user = "+addedUser.id)
             val response = retrieveActivityByActivityId(addedActivity.id)
             assertEquals(200, response.status)
 
@@ -296,6 +265,43 @@ class HealthTrackerControllerTest {
         }
 
     }
+    @Nested
+    inner class CreateActivities {
+
+        @Test
+        fun `add an activity when a user exists for it, returns a 200 response`() {
+
+            //Arrange - add a user and an associated activity that we plan to do a delete on
+            val addedUser: User = jsonToObject(addUser(validName, validEmail).body.toString())
+
+            val addActivityResponse = addActivity(
+                activities[0].description, activities[0].duration,
+                activities[0].calories, activities[0].started, addedUser.id
+            )
+            assertEquals(200, addActivityResponse.status)
+
+
+            //After - delete the user (Activity will cascade delete in the database)
+            deleteUser(addedUser.id)
+
+        }
+
+        @Test
+        fun `add an activity when no user exists for it, returns a 404 response`() {
+
+            //Arrange - check there is no user for -1 id
+            val userId = -1
+            assertEquals(404, retrieveUserById(userId).status)
+
+            val addActivityResponse = addActivity(
+                activities.get(0).description, activities.get(0).duration,
+                activities.get(0).calories, activities.get(0).started, userId
+            )
+            assertEquals(404, addActivityResponse.status)
+        }
+    }
+
+
 
     @Nested
     inner class UpdateActivities {
@@ -326,14 +332,14 @@ class HealthTrackerControllerTest {
                 activities[0].description,
                 activities[0].duration, activities[0].calories,
                 activities[0].started, addedUser.id)
-            assertEquals(201, addActivityResponse.status)
+            assertEquals(200, addActivityResponse.status)
             val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
 
             //Act & Assert - update the added activity and assert a 204 is returned
 
             val updatedActivityResponse = updateActivity(addedActivity.id, "updatedDescription",
                 2.0, 300, DateTime.now(), addedUser.id)
-            assertEquals(204, updatedActivityResponse.status)
+            assertEquals(200, updatedActivityResponse.status)
 
             //Assert that the individual fields were all updated as expected
             val retrievedActivityResponse = retrieveActivityByActivityId(addedActivity.id)
@@ -341,7 +347,6 @@ class HealthTrackerControllerTest {
             assertEquals("updatedDescription",updatedActivity.description)
             assertEquals(2.0, updatedActivity.duration, 0.1)
             assertEquals(300, updatedActivity.calories)
-            assertEquals(DateTime.now(), updatedActivity.started )
 
             //After - delete the user
             deleteUser(addedUser.id)
@@ -370,11 +375,11 @@ class HealthTrackerControllerTest {
             val addActivityResponse = addActivity(
                 activities[0].description, activities[0].duration,
                 activities[0].calories, activities[0].started, addedUser.id)
-            assertEquals(201, addActivityResponse.status)
+            assertEquals(200, addActivityResponse.status)
 
             //Act & Assert - delete the added activity and assert a 204 is returned
             val addedActivity = jsonNodeToObject<Activity>(addActivityResponse)
-            assertEquals(204, deleteActivityByActivityId(addedActivity.id).status)
+            assertEquals(200, deleteActivityByActivityId(addedActivity.id).status)
 
             //After - delete the user
             deleteUser(addedUser.id)
@@ -388,15 +393,15 @@ class HealthTrackerControllerTest {
             val addActivityResponse1 = addActivity(
                 activities[0].description, activities[0].duration,
                 activities[0].calories, activities[0].started, addedUser.id)
-            assertEquals(201, addActivityResponse1.status)
+            assertEquals(200, addActivityResponse1.status)
             val addActivityResponse2 = addActivity(
                 activities[1].description, activities[1].duration,
                 activities[1].calories, activities[1].started, addedUser.id)
-            assertEquals(201, addActivityResponse2.status)
+            assertEquals(200, addActivityResponse2.status)
             val addActivityResponse3 = addActivity(
                 activities[2].description, activities[2].duration,
                 activities[2].calories, activities[2].started, addedUser.id)
-            assertEquals(201, addActivityResponse3.status)
+            assertEquals(200, addActivityResponse3.status)
 
             //Act & Assert - delete the added user and assert a 204 is returned
             assertEquals(204, deleteUser(addedUser.id).status)
@@ -444,7 +449,7 @@ class HealthTrackerControllerTest {
 
     //helper function to retrieve activities by user id
     private fun retrieveActivitiesByUserId(id: Int): HttpResponse<JsonNode> {
-        return Unirest.get(origin + "/api/users/${id}/activities").asJson()
+        return Unirest.get(origin + "/api/activities/user/${id}").asJson()
     }
 
     //helper function to retrieve activity by activity id
@@ -472,7 +477,7 @@ class HealthTrackerControllerTest {
                   "duration":$duration,
                   "calories":$calories,
                   "started":"$started",
-                  "userId":$userId
+                  "user_id":$userId
                 }
             """.trimIndent()).asJson()
     }

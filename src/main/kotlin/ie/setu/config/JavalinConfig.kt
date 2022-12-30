@@ -148,6 +148,9 @@ class JavalinConfig {
             //Activities
             get("/activities",VueComponent("<activities-overview></activities-overview>"))
             get("/activities/{activity-id}", VueComponent("<activity-profile></activity-profile>"))
+
+            //Health parameters
+            get("/healthparameters",VueComponent("<healthparameters-overview></healthparameters-overview>"))
         }
     }
 }

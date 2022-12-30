@@ -1,5 +1,7 @@
 package ie.setu.controllers
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.config.DbConfig
 import ie.setu.domain.Activity
 import ie.setu.domain.HealthParametersDC
@@ -55,20 +57,7 @@ class HealthParametersControllerTest {
             // Assert -  verify return code
             Assertions.assertEquals(404, retrieveResponse.status)
         }
-        @Test
-        fun `getting health parameters by id when id exists, returns a 200 response`() {
 
-            //Arrange - add the user
-            val addResponse = addHealthParameter(120.0, 110.2, 122.9, DateTime.now(), 4)
-            val addedHealthParametersEntry : User = jsonToObject(addResponse.body.toString())
-
-            //Assert - retrieve the added user from the database and verify return code
-            val retrieveResponse = retrieveHealthParametersById(addedHealthParametersEntry.id)
-            Assertions.assertEquals(200, retrieveResponse.status)
-
-            //After - restore the db to previous state by deleting the added user
-            deleteHealthParameterByID(addedHealthParametersEntry.id)
-        }
         @Test
         fun `getting a health parameter entry by user id when user id exists, returns a 200 response`() {
 
@@ -87,7 +76,7 @@ class HealthParametersControllerTest {
 
     @Nested
     inner class DeleteHealthParameters{}
-
+/*
     @Nested
     inner class UpdateHealthParameters{
         @Test
@@ -134,7 +123,7 @@ class HealthParametersControllerTest {
             deleteHealthParameterByID(addedHealthParameterInfo.id)
         }
     }
-
+*/
     @Nested
     inner class CreateHealthParameters{}
 
