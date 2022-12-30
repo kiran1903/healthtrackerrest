@@ -10,6 +10,8 @@ This App includes core 6 fearures for tracking health which includes Users, Acti
 - Measurements
 - Exercise Tracker (Gym)
  
+ ## Implementation
+ CI/CD pipeline is implemented for this project. Automatic deployment on railway is ON. 
 
 ## Execute the Repository
 ### Step 1:
@@ -22,4 +24,4 @@ Create a local repository for the project
 Run the test cases
 
 ### Step 3:
-Deploy the project to Heroku. 
+Deploy the project to Railway. 
