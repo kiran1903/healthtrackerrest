@@ -63,7 +63,7 @@ class HealthParametersControllerTest {
             addHealthParameter(120.0, 110.2, 122.9, DateTime.now(), 4)
 
             //Assert - retrieve the added health parameter from the database and verify return code
-            val retrieveResponse = retrieveHealthParametersByUserID(1)
+            val retrieveResponse = retrieveHealthParametersByUserID(4)
             Assertions.assertEquals(200, retrieveResponse.status)
 
             //After - restore the db to previous state by deleting the added health parameter

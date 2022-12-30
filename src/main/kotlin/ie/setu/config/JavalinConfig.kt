@@ -156,15 +156,19 @@ class JavalinConfig {
 
             //Health parameters
             get("/healthparameters",VueComponent("<healthparameters-overview></healthparameters-overview>"))
+            get("/healthparameters/{healthparameter-id}", VueComponent("<healthparameter-profile></healthparameter-profile>"))
 
             //Sleep monitor
             get("/sleepmonitor",VueComponent("<sleepmonitor-overview></sleepmonitor-overview>"))
+            get("/sleepmonitor/{sleepmonitor-id}", VueComponent("<sleepmonitor-profile></sleepmonitor-profile>"))
 
             //Measurements
             get("/measurements",VueComponent("<measurements-overview></measurements-overview>"))
+            get("/measurements/{measurements-id}", VueComponent("<measurements-profile></measurements-profile>"))
 
             //Exercise Tracker
             get("/exercise",VueComponent("<exercise-overview></exercise-overview>"))
+            get("/exercise/{exercise-id}", VueComponent("<exercise-profile></exercise-profile>"))
 
         }
     }

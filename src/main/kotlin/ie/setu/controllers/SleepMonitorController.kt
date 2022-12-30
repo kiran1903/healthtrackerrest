@@ -8,6 +8,10 @@ import ie.setu.domain.User
 import ie.setu.domain.repository.SleepMonitorDAO
 import ie.setu.utils.jsonToObject
 import io.javalin.http.Context
+import io.javalin.plugin.openapi.annotations.HttpMethod
+import io.javalin.plugin.openapi.annotations.OpenApi
+import io.javalin.plugin.openapi.annotations.OpenApiParam
+import io.javalin.plugin.openapi.annotations.OpenApiResponse
 
 object SleepMonitorController {
     private val sleepMonitorDAO = SleepMonitorDAO()
@@ -48,6 +52,15 @@ object SleepMonitorController {
         }
     }
 
+    @OpenApi(
+        summary = "Update Sleep info",
+        operationId = "updateSleepInfoByID",
+        tags = ["SleepMonitor"],
+        path = "/api/sleepmonitoring/{sleepmonitor-id}",
+        method = HttpMethod.PATCH,
+        pathParams = [OpenApiParam("sleepmonitor-id", Int::class, "The Sleep monitor ID")],
+        responses  = [OpenApiResponse("204")]
+    )
     fun updateSleepInfoByID(ctx: Context) {
         val sleepInfo : SleepMonitorDTO = jsonToObject(ctx.body())
         if ((sleepMonitorDAO.updateByID(id = ctx.pathParam("sleepmonitor-id").toInt(), sleepInfo=sleepInfo)) != 0)
