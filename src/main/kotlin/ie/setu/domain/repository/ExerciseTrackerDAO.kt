@@ -23,6 +23,7 @@ class ExerciseTrackerDAO {
                 it[day] = excerciseData.day
                 it[exercise] = excerciseData.exercise
                 it[duration] = excerciseData.duration
+                it[user_id] = excerciseData.user_id
             }
         }
 
@@ -57,6 +58,7 @@ class ExerciseTrackerDAO {
                 ExerciseTracker.exercise eq exercise}) {
                 it[day] = exerciseData.day
                 it[duration] = exerciseData.duration
+                it[user_id] = exerciseData.user_id
             }
         }
     }

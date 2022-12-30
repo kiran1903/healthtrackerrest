@@ -30,9 +30,9 @@ val activities = arrayListOf<Activity>(
 
 
 val exercisetrackers = arrayListOf<ExerciseTrackerDC>(
-    ExerciseTrackerDC(1,"Monday","Arms",10),
-    ExerciseTrackerDC(2,"Tuesday","Triceps",15),
-    ExerciseTrackerDC(3,"Wednesday","Abs",20)
+    ExerciseTrackerDC(1,"Monday","Arms",10, 1),
+    ExerciseTrackerDC(2,"Tuesday","Triceps",15, 2),
+    ExerciseTrackerDC(3,"Wednesday","Abs",20, 3)
 )
 
 val healthparameters = arrayListOf<HealthParametersDC>(

@@ -20,6 +20,18 @@
             <li class="nav-item">
               <a class="nav-link" href="/activities">Activities</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/healthparameters">Health Parameters</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sleepmonitor">Sleep Monitor</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/measurements">Measurements</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/exercise">Exercise (Gym)</a>
+            </li>
           </ul>
         </div>
       </nav>

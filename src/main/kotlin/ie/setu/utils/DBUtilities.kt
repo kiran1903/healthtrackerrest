@@ -40,7 +40,8 @@ fun mapToExcerciseTracker(it: ResultRow) = ExerciseTrackerDC(
     id = it[ExerciseTracker.id],
     day = it[ExerciseTracker.day],
     exercise = it[ExerciseTracker.exercise],
-    duration = it[ExerciseTracker.duration]
+    duration = it[ExerciseTracker.duration],
+    user_id = it[ExerciseTracker.user_id]
 )
 
 fun mapToSleepMonitorDTO(it: ResultRow) = SleepMonitorDTO(

@@ -33,13 +33,11 @@
               </div>
               <input type="text" class="form-control" v-model="formData.description" name="description" list="ActivityList" placeholder="Description"/>
               <datalist id="ActivityList">
-                <option value="Bicycle riding">
-                <option value="Dancing">
+                <option value="Cycling">
                 <option value="Hiking">
                 <option value="Running">
                 <option value="Skipping">
                 <option value="Stair Training">
-                <option value="Squat Jacks">
                 <option value="Swimming">
                 <option value="Walking">
                 <option value="Weight Lifting">

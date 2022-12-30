@@ -4,6 +4,7 @@ import ie.setu.domain.ExerciseTrackerDC
 import ie.setu.domain.db.ExerciseTracker
 import ie.setu.domain.repository.ExerciseTrackerDAO
 import ie.setu.helpers.exercisetrackers
+import ie.setu.helpers.populateUserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -46,6 +47,7 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `getting all exercises Tracked from a populated table returns all rows`(){
             transaction {
+                populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
                 assertEquals(3,exercisetrackerdao.getAll().size)
             }
@@ -54,6 +56,7 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `get exercise tracked by day that doesn't exist, results in no exercise tracked returned`(){
             transaction {
+                populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
                 assertContentEquals(emptylist,exercisetrackerdao.findByDay("Friday"))
             }
@@ -62,6 +65,7 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `get exercise tracked by exercise that exists, results in a correct exercise tracked returned`(){
             transaction {
+                populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
                 assertEquals("Arms",exercisetrackerdao.findByExercise("Arms")[0].exercise)
             }
@@ -83,6 +87,7 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `multiple exercises tracked added to table can be retrieved successfully`(){
             transaction {
+                populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
 
                 assertEquals(3,exercisetrackerdao.getAll().size)
@@ -99,6 +104,7 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `deleting a non-existent exercise tracked in table results in no deletion`(){
             transaction {
+                populateUserTable()
                 val exercisedao = populateExerciseTrackerTable()
                 assertEquals(3,exercisedao.getAll().size)
                 exercisedao.delete("Biceps")
@@ -109,6 +115,7 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `deleting an existing exercise tracked in table results in record being deleted`(){
             transaction {
+                populateUserTable()
                 val exercisedao = populateExerciseTrackerTable()
                 assertEquals(3,exercisedao.getAll().size)
                 exercisedao.delete("Triceps")
@@ -123,8 +130,9 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `updating existing exercise tracked in table results in successful update`(){
             transaction {
+                populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
-                val exercise2updated = ExerciseTrackerDC(2,"Tuesday","Biceps",15)
+                val exercise2updated = ExerciseTrackerDC(2,"Tuesday","Biceps",15, 2)
                 exercisetrackerdao.update("Biceps",exercise2updated)
                 assertEquals(exercise2updated,exercise2updated)
             }
@@ -133,8 +141,9 @@ class ExerciseTrackerDAOTest {
         @Test
         fun `updating non-existent exercise tracked in table results in no updates`(){
             transaction {
+                populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
-                val exercise4updated = ExerciseTrackerDC(4,"Thursday","Legs",25)
+                val exercise4updated = ExerciseTrackerDC(4,"Thursday","Legs",25, 3)
                 exercisetrackerdao.update("Legs",exercise4updated)
                 assertEquals(3,exercisetrackerdao.getAll().size)
             }
