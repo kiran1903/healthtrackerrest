@@ -8,6 +8,7 @@ import ie.setu.helpers.populateUserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.joda.time.DateTime
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -132,7 +133,7 @@ class ExerciseTrackerDAOTest {
             transaction {
                 populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
-                val exercise2updated = ExerciseTrackerDC(2,"Tuesday","Biceps",15, 2)
+                val exercise2updated = ExerciseTrackerDC(2, DateTime.now(),"Tuesday","Biceps",15, 2)
                 exercisetrackerdao.update("Biceps",exercise2updated)
                 assertEquals(exercise2updated,exercise2updated)
             }
@@ -143,7 +144,7 @@ class ExerciseTrackerDAOTest {
             transaction {
                 populateUserTable()
                 val exercisetrackerdao = populateExerciseTrackerTable()
-                val exercise4updated = ExerciseTrackerDC(4,"Thursday","Legs",25, 3)
+                val exercise4updated = ExerciseTrackerDC(4, DateTime.now(),"Thursday","Legs",25, 3)
                 exercisetrackerdao.update("Legs",exercise4updated)
                 assertEquals(3,exercisetrackerdao.getAll().size)
             }

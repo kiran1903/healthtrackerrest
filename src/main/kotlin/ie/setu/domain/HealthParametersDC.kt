@@ -3,7 +3,7 @@ package ie.setu.domain
 import org.joda.time.DateTime
 
 data class HealthParametersDC (
-    val id: Int,
+    var id: Int,
     val bloodPressure: Double,
     val pulse: Double,
     val glucose: Double,

@@ -38,6 +38,7 @@ fun mapToMeasurementDTO(it: ResultRow) = MeasurementDTO(
 
 fun mapToExcerciseTracker(it: ResultRow) = ExerciseTrackerDC(
     id = it[ExerciseTracker.id],
+    started = it[ExerciseTracker.started],
     day = it[ExerciseTracker.day],
     exercise = it[ExerciseTracker.exercise],
     duration = it[ExerciseTracker.duration],

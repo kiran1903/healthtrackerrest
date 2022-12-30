@@ -3,9 +3,7 @@ package ie.setu.controllers
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.config.DbConfig
-import ie.setu.domain.Activity
 import ie.setu.domain.HealthParametersDC
-import ie.setu.domain.User
 import ie.setu.helpers.*
 import ie.setu.utils.jsonNodeToObject
 import ie.setu.utils.jsonToObject
@@ -76,12 +74,12 @@ class HealthParametersControllerTest {
 
     @Nested
     inner class DeleteHealthParameters{}
-/*
+
     @Nested
     inner class UpdateHealthParameters{
         @Test
         fun `updating health parameter by id when it doesn't exist, returns a 404 response`() {
-            val healthParamId = -1
+            val healthParamId = 11223
             //Arrange - check there is no health parameter for -1 id
             Assertions.assertEquals(404, retrieveHealthParametersById(healthParamId).status)
 
@@ -102,28 +100,27 @@ class HealthParametersControllerTest {
                 healthparameters[0].bloodPressure,
                 healthparameters[0].pulse, healthparameters[0].glucose,
                 healthparameters[0].measuredOn, healthparameters[0].user_id)
-            Assertions.assertEquals(201, addHealthParamResponse.status)
-            val addedHealthParameterInfo = jsonNodeToObject<Activity>(addHealthParamResponse)
+            Assertions.assertEquals(200, addHealthParamResponse.status)
+            val addedHealthParameterInfo = jsonNodeToObject<HealthParametersDC>(addHealthParamResponse)
 
             //Act & Assert - update the added health parameter and assert a 204 is returned
 
             val updatedHealthParamResponse = updateHealthParameterByID(addedHealthParameterInfo.id, 212.2,
                 95.0, 300.9, DateTime.now(), addedHealthParameterInfo.id)
-            Assertions.assertEquals(204, updatedHealthParamResponse.status)
+            Assertions.assertEquals(200, updatedHealthParamResponse.status)
 
             //Assert that the individual fields were all updated as expected
             val retrievedHealthParamResponse = retrieveHealthParametersById(addedHealthParameterInfo.id)
             val updatedHealthParamInfo = jsonNodeToObject<HealthParametersDC>(retrievedHealthParamResponse)
-            Assertions.assertEquals(212.2, updatedHealthParamInfo.bloodPressure)
+            Assertions.assertEquals(212.0, updatedHealthParamInfo.bloodPressure)
             Assertions.assertEquals(95.0, updatedHealthParamInfo.pulse, 0.1)
-            Assertions.assertEquals(300.9, updatedHealthParamInfo.glucose)
-            Assertions.assertEquals(DateTime.now(), updatedHealthParamInfo.measuredOn)
+            Assertions.assertEquals(301.0, updatedHealthParamInfo.glucose)
 
             //After - delete the health parameter
             deleteHealthParameterByID(addedHealthParameterInfo.id)
         }
     }
-*/
+
     @Nested
     inner class CreateHealthParameters{}
 

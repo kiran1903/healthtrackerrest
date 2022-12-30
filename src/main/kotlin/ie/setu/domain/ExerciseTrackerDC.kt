@@ -1,7 +1,10 @@
 package ie.setu.domain
 
+import org.joda.time.DateTime
+
 data class ExerciseTrackerDC (
-    val id: Int,
+    var id: Int,
+    val started: DateTime,
     val day: String,
     val exercise: String,
     val duration: Int,

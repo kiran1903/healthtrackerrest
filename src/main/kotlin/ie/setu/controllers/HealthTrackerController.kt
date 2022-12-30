@@ -169,10 +169,8 @@ object HealthTrackerController {
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         val activity = mapper.readValue<Activity>(ctx.body())
         val user = userDao.findById(activity.user_id)
-        println("activity.userid is "+activity.user_id)
 
         if(user != null){
-            println("activity save")
             val addedActivityID = activityDAO.save(activity)
             if (addedActivityID != null) {
                 activity.id = addedActivityID

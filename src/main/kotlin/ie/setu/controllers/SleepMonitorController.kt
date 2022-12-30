@@ -25,8 +25,16 @@ object SleepMonitorController {
 
     fun addSleepInfo(ctx: Context) {
         val sleepInfo : SleepMonitorDTO = jsonToObject(ctx.body())
-        sleepMonitorDAO.save(sleepInfo)
-        ctx.json(sleepInfo)
+        val addedSleepInfoID = sleepMonitorDAO.save(sleepInfo)
+        if(addedSleepInfoID!=null){
+            sleepInfo.id = addedSleepInfoID
+            ctx.json(sleepInfo)
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+
     }
 
     fun getSleepInfoByID(ctx: Context) {
@@ -49,7 +57,10 @@ object SleepMonitorController {
     }
 
     fun deleteSleepInfoByID(ctx: Context) {
-        sleepMonitorDAO.deleteByID(ctx.pathParam("sleepmonitor-id").toInt())
+        if (sleepMonitorDAO.deleteByID(ctx.pathParam("sleepmonitor-id").toInt()) != 0)
+            ctx.status(200)
+        else
+            ctx.status(404)
     }
 
     fun getSleepInfoByUserID(ctx: Context) {
@@ -68,6 +79,11 @@ object SleepMonitorController {
     }
 
     fun deleteSleepInfoByUserID(ctx: Context) {
-        sleepMonitorDAO.deleteByUserID(ctx.pathParam("user-id").toInt())
+        if (sleepMonitorDAO.deleteByUserID(ctx.pathParam("user-id").toInt()) !=0 ){
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
     }
 }
