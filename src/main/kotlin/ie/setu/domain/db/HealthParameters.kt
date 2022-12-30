@@ -8,6 +8,6 @@ object HealthParameters: Table("healthparameters") {
     val bloodPressure = double("bloodpressure")
     val pulse = double("pulse")
     val glucose = double("glucose")
-    val measuredOn = datetime("measuredOn")
+    val measuredOn = datetime("measuredon")
     val user_id = integer("user_id").references(Users.id, onDelete = ReferenceOption.CASCADE)
 }

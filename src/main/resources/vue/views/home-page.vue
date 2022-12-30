@@ -21,6 +21,17 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <h5 class="card-header">Health Parameters</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{healthparameters.length}} entries</h5>
+            <a href="/healthparameters" class="btn btn-primary">More Details...</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </app-layout>
 </template>
 
@@ -30,7 +41,8 @@ Vue.component('home-page',
       template: "#home-page",
       data: () => ({
         users: [],
-        activities: []
+        activities: [],
+        healthparameters:[]
       }),
       created() {
         axios.get("/api/users")
@@ -39,6 +51,9 @@ Vue.component('home-page',
         axios.get("/api/activities")
             .then(res => this.activities = res.data)
             .catch(() => alert("Error while fetching activities"));
+        axios.get("/api/healthparameters")
+            .then(res => this.healthparameters = res.data)
+            .catch(() => alert("Error while fetching healthparameters"));
       }
     });
 </script>

@@ -52,6 +52,9 @@ object HealthParametersController {
         val parameters = healthParametersDao.findByUserId(ctx.pathParam("user-id").toInt())
         if (parameters != null) {
             ctx.json(parameters)
+            ctx.status(200)
+        }else{
+            ctx.status(404)
         }
     }
 
