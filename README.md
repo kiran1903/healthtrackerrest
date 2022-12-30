@@ -1,6 +1,16 @@
 # Health Tracker
 Health Tracker App - Kotlin based WebApp   
-This App includes core 5 fearures for tracking health which includes Users, Activities, HealthParameters, ExerciseTracker, Measurements. The project is deployed with the help of Heroku.
+This App includes core 6 fearures for tracking health which includes Users, Activities, HealthParameters, ExerciseTracker, Measurements and sleepmonitoring. The project is deployed with the help of Railway. Database is created in ElephantSQL. All the information is linked to user id, Hence this project supports data analysis with user id as key parameter.
+
+##Features
+- Users
+- Activities
+- Health Parameters
+- Sleep Monitoring
+- Measurements
+- Exercise Tracker (Gym)
+ 
+
 ## Execute the Repository
 ### Step 1:
 Create a local repository for the project
