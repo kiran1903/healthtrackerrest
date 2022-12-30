@@ -1,7 +1,10 @@
 package ie.setu.controllers
 
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import ie.setu.domain.Activity
 import ie.setu.domain.ExerciseTrackerDC
 import ie.setu.domain.repository.ExerciseTrackerDAO
 import io.javalin.http.Context
@@ -40,9 +43,20 @@ object ExerciseTrackerController {
     )
     fun addExerciseInfo(ctx: Context) {
         val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+
         val exerciseData = mapper.readValue<ExerciseTrackerDC>(ctx.body())
-        exerciseTrackerDAO.save(exerciseData)
-        ctx.json(exerciseData)
+        val id = exerciseTrackerDAO.save(exerciseData)
+        if (id != null){
+            exerciseData.id = id
+            ctx.json(exerciseData)
+            ctx.status(201)
+        }
+        else{
+            ctx.status(404)
+        }
+
     }
 
     @OpenApi(
@@ -106,6 +120,40 @@ object ExerciseTrackerController {
         exerciseTrackerDAO.update(
             exercise = ctx.pathParam("exercise"),
             exerciseData=exerciseData)
+    }
+    fun updateExerciseInfoByID(ctx: Context) {
+        val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+
+        val exerciseData = mapper.readValue<ExerciseTrackerDC>(ctx.body())
+        val response = exerciseTrackerDAO.updateByID(
+            ID = ctx.pathParam("exercise-id").toInt(),
+            exerciseData=exerciseData)
+        if(response != 0){
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+    }
+
+    fun getExerciseInfoByID(ctx: Context) {
+        val exerciseInfo = exerciseTrackerDAO.findById(ctx.pathParam("exercise-id").toInt())
+        if (exerciseInfo != null) {
+            ctx.json(exerciseInfo)
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
+        }
+    }
+
+    fun deleteExerciseInfoByID(ctx: Context) {
+        if (exerciseTrackerDAO.deleteByID(ctx.pathParam("exercise-id").toInt()) !=0)
+            ctx.status(200)
+        else
+            ctx.status(404)
     }
 
 }

@@ -41,8 +41,15 @@ object MeasurementsController {
     fun addMeasurements(ctx: Context) {
         val mapper = jacksonObjectMapper()
         val measurementData = mapper.readValue<MeasurementDTO>(ctx.body())
-        measurementDAO.save(measurementData)
-        ctx.json(measurementData)
+        val measurementID = measurementDAO.save(measurementData)
+        if (measurementID != null) {
+            measurementData.id = measurementID
+            ctx.json(measurementData)
+            ctx.status(200)
+        }
+        else
+            ctx.status(404)
+
     }
 
     @OpenApi(
@@ -58,6 +65,10 @@ object MeasurementsController {
         val userData = measurementDAO.findByUserId(ctx.pathParam("userid").toInt())
         if (userData != null) {
             ctx.json(userData)
+            ctx.status(200)
+        }
+        else{
+            ctx.status(404)
         }
     }
 
@@ -71,7 +82,10 @@ object MeasurementsController {
         responses  = [OpenApiResponse("204")]
     )
     fun deleteMeasurements(ctx: Context) {
-        measurementDAO.delete(ctx.pathParam("userid").toInt())
+        if (measurementDAO.delete(ctx.pathParam("userid").toInt()) != 0)
+            ctx.status(200)
+        else
+            ctx.status(404)
     }
 
     @OpenApi(
@@ -86,9 +100,12 @@ object MeasurementsController {
     fun updateMeasurements(ctx: Context) {
         val mapper = jacksonObjectMapper()
         val measurementUpdates = mapper.readValue<MeasurementDTO>(ctx.body())
-        measurementDAO.update(
+        if(measurementDAO.update(
             userid = ctx.pathParam("userid").toInt(),
-            measurements=measurementUpdates)
+            measurements=measurementUpdates) !=0)
+            ctx.status(200)
+        else
+            ctx.status(404)
     }
 
 }

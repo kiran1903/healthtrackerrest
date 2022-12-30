@@ -18,17 +18,17 @@ class HealthParametersDAO {
                 return healthParametersList
         }
 
-        fun save(healthParameters: HealthParametersDC){
-                transaction {
+        fun save(healthParameters: HealthParametersDC): Int?{
+                return transaction {
                         HealthParameters.insert {
-                                it[id] = healthParameters.id
+
                                 it[bloodPressure] = healthParameters.bloodPressure
                                 it[pulse] = healthParameters.pulse
                                 it[glucose] = healthParameters.glucose
                                 it[measuredOn] = healthParameters.measuredOn
                                 it[user_id] = healthParameters.user_id
                         }
-                }
+                } get HealthParameters.id
         }
 
     fun findById(healthParamID: Int): HealthParametersDC? {
@@ -49,8 +49,8 @@ class HealthParametersDAO {
                 }
         }
 
-        fun update(healthParamID: Int, healthParamerts: HealthParametersDC) {
-                transaction {
+        fun update(healthParamID: Int, healthParamerts: HealthParametersDC): Int? {
+                return transaction {
                         HealthParameters.update ({
                                 HealthParameters.id eq healthParamID}) {
                                 it[pulse] = healthParamerts.pulse

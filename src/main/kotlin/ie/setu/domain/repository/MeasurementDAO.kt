@@ -22,15 +22,15 @@ class MeasurementDAO {
         return measurementsList
     }
 
-    fun save(measurementData: MeasurementDTO) {
-        transaction {
+    fun save(measurementData: MeasurementDTO) :Int?{
+        return transaction {
             Measurements.insert {
                 it[height] = measurementData.height
                 it[weight] = measurementData.weight
                 it[bmi] = measurementData.bmi
                 it[user_id] = measurementData.user_id
             }
-        }
+        } get Measurements.id
     }
 
     fun findByUserId(userId: Int): MeasurementDTO? {
@@ -42,7 +42,7 @@ class MeasurementDAO {
         }
     }
 
-    fun delete(userID: Int) {
+    fun delete(userID: Int) :Int?{
         return transaction{
             Measurements.deleteWhere{
                 Measurements.id eq userID
@@ -50,8 +50,8 @@ class MeasurementDAO {
         }
     }
 
-    fun update(userid: Int, measurements: MeasurementDTO) {
-        transaction {
+    fun update(userid: Int, measurements: MeasurementDTO): Int? {
+        return transaction {
             Measurements.update ({
                 Measurements.id eq userid}) {
                 it[height] = measurements.height

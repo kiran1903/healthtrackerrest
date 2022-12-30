@@ -108,6 +108,11 @@ class JavalinConfig {
             path("/api/exercisetracker"){
                 get(ExerciseTrackerController::getExerciseInfo)
                 post(ExerciseTrackerController::addExerciseInfo)
+                path("{exercise-id}"){
+                    get(ExerciseTrackerController::getExerciseInfoByID)
+                    patch(ExerciseTrackerController::updateExerciseInfoByID)
+                    delete(ExerciseTrackerController::deleteExerciseInfoByID)
+                }
                 path("{day}"){
                     get(ExerciseTrackerController::getExerciseInfoByDay)
                     path("{exercise}"){

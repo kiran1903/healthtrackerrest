@@ -25,16 +25,15 @@ class SleepMonitorDAO {
         return measurementsList
     }
 
-    fun save(sleepInfo: SleepMonitorDTO) {
-        transaction {
+    fun save(sleepInfo: SleepMonitorDTO) :Int?{
+        return transaction {
             SleepMonitor.insert {
-                it[id] = sleepInfo.id
                 it[date] = sleepInfo.date
                 it[day] = sleepInfo.day
                 it[sleepDuration] = sleepInfo.sleepDuration
                 it[user_id] = sleepInfo.user_id
             }
-        }
+        }get SleepMonitor.id
 
     }
 
@@ -59,7 +58,7 @@ class SleepMonitorDAO {
         }
     }
 
-    fun deleteByID(id: Int) {
+    fun deleteByID(id: Int) : Int{
         return transaction{
             SleepMonitor.deleteWhere{
                 SleepMonitor.id eq id
@@ -88,7 +87,7 @@ class SleepMonitorDAO {
         }
     }
 
-    fun deleteByUserID(userID: Int) {
+    fun deleteByUserID(userID: Int) :Int{
         return transaction{
             SleepMonitor.deleteWhere{
                 SleepMonitor.user_id eq userID

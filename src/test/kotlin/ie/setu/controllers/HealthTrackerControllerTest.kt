@@ -14,6 +14,7 @@ import kong.unirest.JsonNode
 import ie.setu.domain.Activity
 import ie.setu.helpers.*
 import ie.setu.utils.jsonNodeToObject
+import ie.setu.utils.jsonObjectMapper
 import org.joda.time.DateTime
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -470,6 +471,7 @@ class HealthTrackerControllerTest {
     //helper function to add a test user to the database
     private fun updateActivity(id: Int, description: String, duration: Double, calories: Int,
                                started: DateTime, userId: Int): HttpResponse<JsonNode> {
+
         return Unirest.patch(origin + "/api/activities/$id")
             .body("""
                 {

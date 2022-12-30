@@ -1,5 +1,7 @@
 package ie.setu.controllers
 
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import ie.setu.domain.HealthParametersDC
@@ -34,9 +36,19 @@ object HealthParametersController {
     )
     fun addEntry(ctx: Context) {
         val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+
         val healthParameters = mapper.readValue<HealthParametersDC>(ctx.body())
-        healthParametersDao.save(healthParameters)
-        ctx.json(healthParameters)
+        val addedHp = healthParametersDao.save(healthParameters)
+        if (addedHp != null) {
+            healthParameters.id = addedHp
+            ctx.json(healthParameters)
+            ctx.status(200)
+        }
+        else
+            ctx.status(404)
+
     }
 
     @OpenApi(
@@ -68,7 +80,7 @@ object HealthParametersController {
         responses  = [OpenApiResponse("204")]
     )
     fun deleteParametersByID(ctx: Context) {
-        healthParametersDao.deleteByID(ctx.pathParam("healthParamID").toInt())
+        healthParametersDao.deleteByID(ctx.pathParam("healthparameter-id").toInt())
     }
 
     @OpenApi(
@@ -82,10 +94,16 @@ object HealthParametersController {
     )
     fun updateParametersByID(ctx: Context) {
         val mapper = jacksonObjectMapper()
+            .registerModule(JodaModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+
         val healthParameters = mapper.readValue<HealthParametersDC>(ctx.body())
-        healthParametersDao.update(
-            healthParamID = ctx.pathParam("healthParamID").toInt(),
-            healthParamerts=healthParameters)
+        if (healthParametersDao.update(
+            healthParamID = ctx.pathParam("healthparameter-id").toInt(),
+            healthParamerts=healthParameters) !=0)
+            ctx.status(200)
+        else
+            ctx.status(404)
     }
 
     @OpenApi(
