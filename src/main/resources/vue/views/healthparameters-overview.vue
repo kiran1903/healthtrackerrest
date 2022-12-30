@@ -56,7 +56,7 @@
     <div class="list-group list-group-flush">
       <div class="list-group-item d-flex align-items-start"
            v-for="(healthparameters,index) in healthparameters" v-bind:key="index"><div class="mr-auto p-2">
-        <span><a :href="`/healthparameters/${healthparameters.id}`"> Blood Pressure : {{ healthparameters.bloodPressure }},Pulse : {{ healthparameters.pulse }},Glucose : {{ healthparameters.glucose }}, Date : {{ healthparameters.measuredOn }},User Id : {{ healthparameters.userId }}</a></span>
+        <span><a :href="`/healthparameters/${healthparameters.id}`"> Blood Pressure : {{ healthparameters.bloodPressure }}  ||  Pulse : {{ healthparameters.pulse }}  ||  Glucose : {{ healthparameters.glucose }}  ||  Date : {{ healthparameters.measuredOn }}  ||  User Id : {{ healthparameters.user_id }}</a></span>
       </div>
 
         <div class="p2">

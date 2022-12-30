@@ -42,9 +42,9 @@ val healthparameters = arrayListOf<HealthParametersDC>(
 )
 
 val measurements = arrayListOf<MeasurementDTO>(
-    MeasurementDTO(1,67.0,65.0,15.0, 1),
-    MeasurementDTO(2,75.0,71.0,13.0, 2),
-    MeasurementDTO(3,82.0,75.0,18.0, 3)
+    MeasurementDTO(1,67.0,65.0,15.857988165680473, 1),
+    MeasurementDTO(2,75.0,71.0,14.878000396746678, 2),
+    MeasurementDTO(3,82.0,75.0,14.577777777777778, 3)
 )
 
 val sleepMonitorInfo = arrayListOf<SleepMonitorDTO>(

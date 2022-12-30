@@ -134,6 +134,14 @@ object HealthTrackerController {
     }
 
     //Activities
+    @OpenApi(
+        summary = "Get all activities",
+        operationId = "getAllActivities",
+        tags = ["Activities"],
+        path = "/api/activities",
+        method = HttpMethod.GET,
+        responses  = [OpenApiResponse("200")]
+    )
     fun getAllActivities(ctx: Context) {
         //mapper handles the deserialization of Joda date into a String.
         val mapper = jacksonObjectMapper()

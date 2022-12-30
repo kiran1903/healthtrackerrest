@@ -27,7 +27,8 @@ class MeasurementDAO {
             Measurements.insert {
                 it[height] = measurementData.height
                 it[weight] = measurementData.weight
-                it[bmi] = measurementData.bmi
+                //it[bmi] = measurementData.bmi
+                it[bmi] = (measurementData.weight/(measurementData.height * measurementData.height)) * 1000
                 it[user_id] = measurementData.user_id
             }
         } get Measurements.id

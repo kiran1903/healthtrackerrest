@@ -142,6 +142,15 @@ object HealthParametersController {
             healthParamerts=healthParameters)
     }
 
+    @OpenApi(
+        summary = "delete health parameters by user id",
+        operationId = "deleteParametersByUserID",
+        tags = ["Health Parameters"],
+        path = "/api/healthparameters/user/{userid}",
+        method = HttpMethod.PATCH,
+        pathParams = [OpenApiParam("userid", Int::class, "The user ID")],
+        responses  = [OpenApiResponse("200")]
+    )
     fun deleteParametersByUserID(ctx: Context) {
         healthParametersDao.deleteByUserID(ctx.pathParam("user-id").toInt())
     }

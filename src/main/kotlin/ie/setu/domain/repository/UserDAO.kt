@@ -38,8 +38,8 @@ class UserDAO {
             Users.insert {
                 it[name] = user.name
                 it[email] = user.email
-            } get Users.id
-        }
+            }
+        }get Users.id
     }
 
     fun findByEmail(email: String) :User?{
