@@ -16,37 +16,39 @@
         </div>
       </div>
       <div class="card-body" :class="{ 'd-none': hideForm}">
-        <form id="addExerciseInfo">
+        <form id="addExercise">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" style="width: 120px;" id="input-exercise-userId">User Id</span>
+              <span class="input-group-text" id="input-user-name">User Id</span>
             </div>
-            <div class="input-group mb-3">
-              <select v-model="formData.userId" name="userId" class="form-control" v-model="exercise.userId">
-                <option v-for="user in users" :value="user.id">{{user.name}}</option>
-              </select>
-              <input type="number" class="form-control" v-model="formData.userId" name="userId"  readonly/>
+            <input type="" class="form-control" v-model="formData.user_id" name="User Id" placeholder="User Id"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-date">Date</span>
             </div>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" style="width: 120px;" id="input-exercise-description">Exercise</span>
-              </div>
-              <input type="text" class="form-control" v-model="formData.bloodpressure" name="bloodpressure" list="HealthParametersList" placeholder="Blood Pressure"/>
+            <input type="date" class="form-control" v-model="formData.started" name="Date" placeholder="Date"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-day">Day</span>
             </div>
-
-            <div class="input-group mb-3">
-              <div class="input-group-prepend ">
-                <span class="input-group-text" style="width: 120px;" id="input-exercise-pulse">Pulse</span>
-              </div>
-              <input type="number" class="form-control" v-model="formData.pulse" placeholder="Pulse" name="pulse">
-              &nbsp&nbsp
-              <div class="input-group-prepend ">
-                <span class="input-group-text" style="width: 120px;" id="input-healthparameters-calories">Glucose</span>
-              </div>
-              <input type="number" class="form-control" v-model="formData.glucose" placeholder="Glucose" name="glucose">
+            <input type="text" class="form-control" v-model="formData.day" name="Day" placeholder="Day"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-exercise">Exercise</span>
             </div>
+            <input type="text" class="form-control" v-model="formData.exercise" name="Exercise" placeholder="Exercise"/>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="input-sleep-duration">Duration</span>
+            </div>
+            <input type="number" class="form-control" v-model="formData.duration" name="Duration" placeholder="Duration"/>
+          </div>
         </form>
-        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addHealthParameters()">Add Health Parameters</button>
+        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addExercise()">Add Exercise</button>
 
       </div>
 
@@ -66,7 +68,7 @@
             </button>
           </a>
           <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
-                  @click="deleteHealthParameters(healthparameters, index)">
+                  @click="deleteExerciseInfo(exercise, index)">
             <i class="fas fa-trash" aria-hidden="true"></i>
           </button>
         </div>

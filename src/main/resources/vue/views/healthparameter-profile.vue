@@ -28,19 +28,19 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-healthparameter-id">Health parameter ID</span>
             </div>
-            <input type="number" class="form-control" v-model="healthparameters.id" name="id" readonly placeholder="Id"/>
+            <input type="number" class="form-control" v-model="healthparameter.id" name="id" readonly placeholder="Id"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-healthparameter-name">Blood Pressure</span>
             </div>
-            <input type="text" class="form-control" v-model="healthparameters.bloodpressure" name="bloodpressure" placeholder="Blood Pressure"/>
+            <input type="text" class="form-control" v-model="healthparameter.bloodpressure" name="bloodpressure" placeholder="Blood Pressure"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-healthparameter-email">Glucose</span>
             </div>
-            <input type="email" class="form-control" v-model="healthparameters.glucose" name="glucose" placeholder="Glucose"/>
+            <input type="email" class="form-control" v-model="healthparameter.glucose" name="glucose" placeholder="Glucose"/>
           </div>
         </form>
       </div>
