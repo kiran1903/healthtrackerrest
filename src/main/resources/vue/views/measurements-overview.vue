@@ -1,10 +1,10 @@
-<template id="sleepmonitor-overview">
+<template id="measurements-overview">
   <app-layout>
     <div class="card bg-light mb-3">
       <div class="card-header">
         <div class="row">
           <div class="col-6">
-            Sleep Information
+            Measurements Information
           </div>
           <div class="col" align="right">
             <button rel="tooltip" title="Add"
@@ -16,49 +16,49 @@
         </div>
       </div>
       <div class="card-body" :class="{ 'd-none': hideForm}">
-        <form id="addSleepInfo">
+        <form id="addMeasurements">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="input-user-name">User Id</span>
+              <span class="input-group-text" id="input-user-id">User Id</span>
             </div>
-            <input type="" class="form-control" v-model="formData.user_id" name="User Id" placeholder="User Id"/>
+            <input type="number" class="form-control" v-model="formData.user_id" name="User Id" placeholder="User Id"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="input-date">Date</span>
+              <span class="input-group-text" id="input-weight">Weight</span>
             </div>
-            <input type="date" class="form-control" v-model="formData.date" name="Date" placeholder="Date"/>
+            <input type="number" class="form-control" v-model="formData.weight" name="Weight" placeholder="Weight"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="input-day">Day</span>
+              <span class="input-group-text" id="input-height">Height</span>
             </div>
-            <input type="text" class="form-control" v-model="formData.day" name="Day" placeholder="Day"/>
+            <input type="number" class="form-control" v-model="formData.height" name="Height" placeholder="Height"/>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="input-sleep-duration">Sleep Duration</span>
+              <span class="input-group-text" id="input-bmi">BMI</span>
             </div>
-            <input type="" class="form-control" v-model="formData.sleepDuration" name="Sleep Duration" placeholder="Sleep Duration"/>
+            <input type="" class="form-control" v-model="formData.bmi" name="BMI" placeholder="BMI"/>
           </div>
         </form>
-        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addSleepInfo()">Add SleepInfo</button>
+        <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link" @click="addMeasurements()">Add Measurements</button>
       </div>
     </div>
     <div class="list-group list-group-flush">
       <div class="list-group-item d-flex align-items-start"
-           v-for="(sleepData,index) in sleepmonitor" v-bind:key="index">
+           v-for="(measurement,index) in measurements" v-bind:key="index">
         <div class="mr-auto p-2">
-          <span><a :href="`/sleepmonitor/${sleepData.id}`"> User ID: {{ sleepData.user_id }} || Date: {{ sleepData.date }} ({{ sleepData.day }}) || Sleep Duration: {{ sleepData.sleepDuration }}</a></span>
+          <span><a :href="`/measurements/${measurement.id}`"> User ID: {{ measurement.user_id }} || Weight: {{ measurement.weight }} || Height: {{ measurement.height }}  || BMI: {{ measurement.bmi }}</a></span>
         </div>
         <div class="p2">
-          <a :href="`/sleepmonitor/${sleepData.id}`">
+          <a :href="`/measurements/${measurement.id}`">
             <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </button>
           </a>
           <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
-                  @click="deleteSleepInfo(sleepData, index)">
+                  @click="deleteMeasurements(measurement, index)">
             <i class="fas fa-trash" aria-hidden="true"></i>
           </button>
         </div>
@@ -68,48 +68,48 @@
 </template>
 
 <script>
-Vue.component("sleepmonitor-overview",{
-  template: "#sleepmonitor-overview",
+Vue.component("measurements-overview",{
+  template: "#measurements-overview",
   data: () => ({
-    sleepmonitor: [],
+    measurements: [],
     formData: [],
     hideForm :true
   }),
   created() {
-    this.fetchSleepMonitorInfo();
+    this.fetchMeasurements();
   },
   methods: {
-    fetchSleepMonitorInfo: function () {
-      axios.get("/api/sleepmonitoring")
-          .then(res => this.sleepmonitor = res.data)
-          .catch(() => alert("Error while fetching sleepmonitoring info"));
+    fetchMeasurements: function () {
+      axios.get("/api/measurements")
+          .then(res => this.measurements = res.data)
+          .catch(() => alert("Error while fetching info"));
     },
-    addSleepInfo: function (){
-      const url = `/api/sleepmonitoring`;
+    addMeasurements: function (){
+      const url = `/api/measurements`;
       axios.post(url,
           {
             user_id: this.formData.user_id,
-            date: this.formData.date,
-            day: this.formData.day,
-            sleepDuration: this.formData.sleepDuration
+            height: this.formData.height,
+            weight: this.formData.weight
+            //bmi: this.formData.bmi
           })
           .then(response => {
-            this.sleepmonitor.push(response.data)
+            this.measurements.push(response.data)
             this.hideForm= true;
           })
           .catch(error => {
             console.log(error)
           })
     },
-    deleteSleepInfo: function (sleepData, index) {
+    deleteMeasurements: function (measurement, index) {
       if (confirm('Are you sure you want to delete this information? This action cannot be undone.', 'Warning')) {
         //user confirmed delete
-        const sleepInfoId = sleepData.id;
-        const url = `/api/sleepmonitoring/${sleepInfoId}`;
+        const measurementId = measurement.id;
+        const url = `/api/measurements/${measurementId}`;
         axios.delete(url)
             .then(response =>
                 //delete from the local state so Vue will reload list automatically
-                this.sleepmonitor.splice(index, 1).push(response.data))
+                this.measurements.splice(index, 1).push(response.data))
             .catch(function (error) {
               console.log(error)
             });
